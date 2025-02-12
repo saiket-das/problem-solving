@@ -22,3 +22,9 @@ courses.insert(3, "DS")            # Append at the specific index ["CM", "FOP", 
 print("\n%s" %courses)
 print("Length: %d" %len(courses))  # 6
 print("FOP" in courses)            # True (Check is 'FOP' exists or not in courses list)
+
+
+# Pair List
+pairs = [(1, "A"), (2, "B"), (3, "C"), (4, "D")]
+for a, b in pairs:
+    print("%d: %c" %(a, b))
