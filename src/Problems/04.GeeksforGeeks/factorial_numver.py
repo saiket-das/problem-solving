@@ -1,21 +1,30 @@
 # https://www.geeksforgeeks.org/problems/print-gfg-n-times/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=print-gfg-n-times
 
-
+# Time Complexity: O(n) and Space Complexity: O(n)
 def factorialNumbers(n):
-    if (n == 1):
+    if (n <= 1):
         return 1
-    
     return n * factorialNumbers(n - 1)
     
-print(factorialNumbers(6))
+def get_factorials_up_to_n(n, current: int = 1, result: list[int] = []):
+    fact = factorialNumbers(current)
+    if (fact> n):
+        return result
+    
+    result.append(fact)
+    return get_factorials_up_to_n(n, current + 1, result)
 
+n = 3
+result = get_factorials_up_to_n(n)
+print(result)
 """
-   6 .
-   5
-   4
-   3 .
-   2 .
-   1 .
+    Example 1:
+        n = 3
+        Factorial: 1 * 2 * 3 = 6
+            1 < 6 ✅
+            1 * 2 < 6 ✅
+            1 * 2 * 3 < 6 ❌
+        Output: 1 2
 """
 
 """
