@@ -6,27 +6,28 @@
     :rtype: bool
 """
 
-# Time Complexity: O(N)
-def containsDuplicate(nums):
-    # Initialize a frequency dictionary with sets to keep track of number frequencies
-    freq_dict = {}
+"""
+    Time Complexity:  O(N)
+    Space Complexity: O(N)
+"""
+def containsDuplicate(nums: list[int]) -> bool:
+    # Initialize an empty set to track seen numbers
+    num_set = set()
 
-    for num in nums:    # TC: O(N)
-        # If Num is already in Dict then return False
-        # (Need to check .get(num) == num) because the number could be 0, 
-        # # which would be considered False in a boolean context. 
-        # # This ensures that 0 is handled correctly, as it can be a valid value in the dictionary.
-        if (freq_dict.get(num) == num):    # TC: O(1)
+    # Iterate through each number in the input list
+    for num in nums:
+        # Check if the current number is already in the set
+        if (num in num_set):
+            # If duplicate found, return True
             return True
-        # If Num not in Dict then add that Num to DIct
         else:
-            freq_dict[num] = num    # TC: O(1)
-    
-    for x in freq_dict:
-        print(x)
+            # If not a duplicate, add the number to the set
+            num_set.add(num)
+        
+    # If no duplicates are found, return False
     return False
 
-print(containsDuplicate([0,4,5,0,3,6]))
+print(containsDuplicate([1,2,3,1]))
 
 
 
