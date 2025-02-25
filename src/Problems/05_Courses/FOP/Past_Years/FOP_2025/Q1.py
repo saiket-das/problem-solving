@@ -1,6 +1,10 @@
 # Decimal number to Binary number
 
-# Question 1 (a) -- Time Complexity: O(logN)
+"""
+    Question 1 (a)
+      - Time Complexity:  O(log n)
+      - Space Complexity: O(log n)
+"""
 def decimal_to_binary (n: int) -> int:
     binary_str: str = ""
 
@@ -16,9 +20,16 @@ def decimal_to_binary (n: int) -> int:
     # Convert the Binary String to Integer and Return
     return int(binary_str)
 
-print(decimal_to_binary(10))
+print("Question 1 (a)")
+decimal_num = int(input("Enter decimal number: "))
+print("%d decimal to binary is: %d" %(decimal_num, decimal_to_binary(decimal_num)))
 
-# Question 1 (b)  -- Time Complexity: O(5) -> O(1)
+# --------------------------
+"""
+    Question 1 (b)
+      - Time Complexity:  O(5) -> O(1)
+      - Space Complexity: O(1)
+"""
 def mark_grade () -> float:
     totalMark: int = 0
     i = 0
@@ -34,18 +45,30 @@ def mark_grade () -> float:
     # Calculate Average ad Return
     return totalMark / 5
 
+print()
+print("Question 1 (b)")
 average: float = mark_grade()
 print("Average: %.2f" %average)
 
-
-
+# --------------------------
 """
-    Question 1 (a)
-    ----------
-    n = 7
-    str = ""
-
-    7 % 2 = 1, n = 3 and str = "1"
-    3 % 2 = 1, n = 1 and str = "11"
-    1 % 2 = 1, n = 1 and str = "111"
+    Question 1 (c)
+      - Time Complexity:  O(1)
+      - Space Complexity: O(1)
 """
+def convert_to_grade(average: float):
+    match (average // 10):
+        case 9 | 10:
+            print("Grade: A") 
+        case 8:
+            print("Grade: B")
+        case 7:
+            print("Grade: C")
+        case 6:
+            print("Grade: D")
+        case _:
+            print("Grade: F")
+
+print()
+print("Question 1 (c)")
+(convert_to_grade(average))

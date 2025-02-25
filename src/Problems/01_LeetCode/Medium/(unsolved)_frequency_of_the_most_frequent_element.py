@@ -3,11 +3,7 @@
 
 def maxFrequency(nums: list[int], k: int) -> int:
 
-
-    
     return 0
-
-
 
 print(maxFrequency([1,4,2], 5))
 

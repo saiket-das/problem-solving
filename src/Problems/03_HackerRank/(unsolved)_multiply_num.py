@@ -1,5 +1,3 @@
-
-
 def multiply_nums(n):
     # Initialize an empty list to store unique multiples of 3 and 5
     sum_list = []

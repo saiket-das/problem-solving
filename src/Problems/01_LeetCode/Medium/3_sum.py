@@ -1,8 +1,5 @@
 # https://leetcode.com/problems/3sum/description/
 
-
-
-   
 """
     Approach 1: Brute Force
         Time Complexity:  O(n^3)
@@ -73,7 +70,6 @@ def threeSum(nums: list[int]) -> list[list[int]]:
                 while (nums[l] == nums[l - 1] and l < r):
                     l += 1
 
-    
     return result
     
 
