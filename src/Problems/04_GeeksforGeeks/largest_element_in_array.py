@@ -8,7 +8,7 @@
 
 def largest(arr):
     # Initialize with the smallest possible value
-    large = 0
+    large = arr[0]
     for num in arr:
         # Update largest if the current number is greater
         large = max(large, num)
