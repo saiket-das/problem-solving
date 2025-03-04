@@ -1,8 +1,9 @@
 # https://leetcode.com/problems/sort-colors/description/
 
 """
-    Time Complexity:  O(NlogN)
-    Space Complexity: O(n)
+    Brute Force: Merge Sort (Divide and Conquer)
+        Time Complexity:  O(NlogN)
+        Space Complexity: O(n)
 """
 
 # ---- Divide ----
@@ -42,12 +43,54 @@ def merge(nums: list[int], low: int, mid: int, high: int):
 
 
 
-def twoPointer(nums: list[int]):
+"""
+    Better Approach: 
+        Time Complexity:  O(n) + O(n) = O(2n)
+        Space Complexity: O(1) ✅ -> (Sorting is done in-place)
+"""
+def better(nums: list[int]):
+    # Count occurrences of 0, 1, and 2
+    count_0, count_1, count_2 = 0, 0, 0
+    
+    for num in nums:
+        if num == 0:
+            count_0 += 1
+        elif num == 1:
+            count_1 += 1
+        else: 
+            count_2 += 1
+    
+    # Overwrite the original array based on counts
+    index = 0
+    # Fill the array with `count_0` number of 0s
+    for _ in range(count_0):
+        nums[index] = 0
+        index += 1
+
+    # Fill the array with `count_1` number of 1s
+    for _ in range(count_1):
+        nums[index] = 1
+        index += 1
+
+    # Fill the array with `count_2` number of 2s
+    for _ in range(count_2):
+        nums[index] = 2
+        index += 1
+    
+    return nums
+
+
+"""
+    Optimal Approach: Two Pointer (Dutch National Flag Alogoritm)
+        Time Complexity:  O(N)
+        Space Complexity: O(1) ✅ -> (Sorting is done in-place)
+"""
+def optimal(nums: list[int]):
     """
         Rules:
-        1. If nums[i] == 0 → Swap with nums[l] and move both `l` and `i` forward.
-        2. If nums[i] == 2 → Swap with nums[r`], move `r` backward (but don't move `i` to recheck swapped value).
-        - If nums[i] == 1 → Just move `i` forward.
+          - If nums[i] == 0 → Swap with nums[l] and move both `l` and `i` forward.
+          - If nums[i] == 2 → Swap with nums[r] and move `r` backward (but don't move `i` to recheck swapped value).
+          - If nums[i] == 1 → Just move `i` forward.
     """
     l: int = 0                # Left pointer
     r: int = len(nums) - 1    # Right pointer
@@ -59,36 +102,30 @@ def twoPointer(nums: list[int]):
         if (nums[i] == 0):
             # Swap current element with left pointer and move both forward
             nums[l], nums[i] = nums[i], nums[l]
-            l += 1    # Move to the next element
+            l += 1    # Move forward left pointer 
         # Rule 2
         if (nums[i] == 2):
             # Swap current element with right pointer and move right backward
             nums[r], nums[i] = nums[i], nums[r]
-            r -= 1    # Reduce right pointer
-        i += 1
+            r -= 1    # Reduce right pointer  
+        else:
+            i += 1
     
-"""
-    Approach 1: Sorting Algorithms
-        Time Complexity:  O(NlogN)
-        Space Complexity: O(N) ❌
-    Approach 2: Two Pointer
-        Time Complexity:  O(N)
-        Space Complexity: O(1) ✅ -> (Sorting is done in-place)
-"""
-
+# Main Function
 def sortColors(nums: list[int]) -> None:
-    # Approach 1:
     # low, high = 0, len(nums) - 1
     # divide(nums, low, high)
-
-    # Approach 2:
-    twoPointer(nums)
+    # better(nums)
+    optimal(nums)
     print(nums)
 
-sortColors([1,0,2])
+sortColors([1, 0, 2])
+sortColors([2, 0, 1])
+sortColors([2, 0, 2, 1, 1, 0, 1])
+sortColors([1, 1, 1, 0, 1, 1, 1])
 
 """
-    [2,0,2,1,1,0]
+    [2, 0, 2, 1, 1, 0]
     [2,0,1]
     [1,0,2]
 """

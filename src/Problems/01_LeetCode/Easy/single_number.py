@@ -4,7 +4,7 @@ from collections import defaultdict
 
 """
     Brute Force: Using Hashmap or Dict
-        Time Complexity:  O(n) -> Two passes: One for counting, One for checking
+        Time Complexity:  O(n) => Two passes: One for counting, One for checking
         Sapce Complexity: O(n/2 + 1) => O(n) -> Extra space for the hashmap
 """
 def brute_force(nums: list[int]) -> int:
@@ -24,8 +24,8 @@ def brute_force(nums: list[int]) -> int:
 
 """
     Optimal: Using XOR
-        Time Complexity:  O(n) -> Single pass through the array  
-        Sapce Complexity: O(1) -> → No extra space used 
+        Time Complexity:  O(n) => Single pass through the array  
+        Sapce Complexity: O(1) => No extra space used 
     
     Concepts
       - The XOR of two same numbers is 0 (e.g., `a ⊕ a = 0`).
