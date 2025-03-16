@@ -1,10 +1,12 @@
 # https://leetcode.com/problems/subarray-sum-equals-k/description/
 
+ 
+from collections import defaultdict
 
 
 """
-    Brute Force Approach: Using Nested Loop
-        Time Complexity:  O(n^2) => Near N^2
+    Brute Force: Nested Loop
+        Time Complexity:  O(n * n) => Near N^2
         Sapce Complexity: O(1)   => No extra space used 
     
     Steps:
@@ -16,10 +18,7 @@
       - [10, 5, 2, 7, 1, -10]
       - [10], [10, 5], [10, 5, 2], ....
       - [5], [5, 2, [5, 2, 7], ....
-""" 
-from collections import defaultdict
-
-
+"""
 def brute_force(arr, target): 
     n = len(arr)
 
@@ -40,16 +39,19 @@ def brute_force(arr, target):
 
 
 """
-    Optimal Approach: Using HashMap + Prefix Sum
-        Time Complexity:  O(n) => (But can degrade to O(n²) in case of extreme hash collisions, but rare)
+    Optimal: HashMap + Prefix Sum
+        Time Complexity:  O(n) => (But can degrade to O(n * n) in case of extreme hash collisions, but rare)
         Sapce Complexity: O(n) => Stores prefix sums in a hashmap
 """
 def optimal(nums: list[int], k: int) -> int:
+    # Get the length of list
+    n = len(nums)
+
     # Stores the first occurrence of each prefix sum
     prefix_sum_map = defaultdict(int)
-    current_sum, count= 0, 0
+    current_sum, count = 0, 0
 
-    for i in range(len(nums)):
+    for i in range(n):
         # Update the cumulative sum
         current_sum += nums[i]
 
@@ -66,14 +68,17 @@ def optimal(nums: list[int], k: int) -> int:
         # This keeps track of how many times a certain prefix sum has been seen
         prefix_sum_map[current_sum] += 1
     
+
     return count
 
 
 # Main Function
 def subarraySum(nums: list[int], k: int) -> int:
+    # print(brute_force(nums, k))
     print(optimal(nums, k))
 
 subarraySum([1, 1, 1], 2)
 subarraySum([1, 2, 3], 3)
 subarraySum([1, 2, 1, 2, 1], 3)
+subarraySum([3, -3, 1, 1, 1], 3)
 subarraySum([0,0,0,0,0,0,0,0,0,0], 0)

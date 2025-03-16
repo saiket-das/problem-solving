@@ -1,33 +1,93 @@
 # https://leetcode.com/problems/3sum/description/
 
+from collections import defaultdict
+
 """
-    Approach 1: Brute Force
-        Time Complexity:  O(n^3)
-        Space Complexity: O(1)
+    Brute Force: Nested Loop 
+        Time Complexity:  O(n^3 * log(m))
+        Space Complexity: 2 * O(m) 
+
+        `n` = The length of nums list & `m` = The length of unique_triplets
 """
-    # result = [list]
-    # n = len(nums)
-    # for i in range(n):
-    #     for j in range(i+1, n):
-    #         for k in range(j+i, n):
-    #             three_sum = nums[i] + nums[j] + nums[k]
-    #             if (three_sum == 0 and i != j and i!=k  and j != k):
-    #                 result.append([nums[i], nums[j], nums[k]]) 
+def brute_force(nums: list[int]) -> list[list[int]]:
+    # Get the length of the nums list
+    n = len(nums)
+
+    # Use a set to store unique triplets
+    unique_triplets = set()  
+
+    # Iterate through all possible triplet combinations
+    for i in range(n):
+        for j in range(i + 1, n):
+            for k in range(j + i, n):
+                # Calculate the sum of the triplet
+                three_sum = nums[i] + nums[j] + nums[k]
+                
+                # Check if the sum equals zero
+                if three_sum == 0 :
+                    # Sort to avoid duplicate sets
+                    triplet = tuple(sorted([nums[i], nums[j], nums[k]]))    # SC: O(3 log 3) -> O(1)
+                    unique_triplets.add(triplet)
     
+    # Convert back to list format
+    return [list(triplet) for triplet in unique_triplets]
+
+
+
 """
-    Time Complexity:  O(n^2)
-    Space Complexity: O(1) 
+    Better: Nested Loop 
+        Time Complexity:  O(n^2) * O(log s) => O(n^2)
+        Space Complexity: O(n) + O(m) * 2
+
+        `n` = The length of nums list & `m` = The length of unique_triplets & `s` = The length of hashSet 
+"""
+def better(nums: list[int]) -> list[list[int]]:
+    # Get the length of the nums list
+    n = len(nums)
+
+    # Use a set to store unique triplets (to avoid duplicates)
+    unique_triplets = set()
+
+    # Iterate through the list, considering each element as the first number of a triplet
+    for i in range(n):
+        # A hashset to track elements for quick lookup of the third number
+        hashset = set()
+
+        # Iterate through the remaining elements to find valid pairs
+        for j in range(i + 1, n):
+            # Calculate the required third number to form a zero sum
+            third_element = -(nums[i] + nums[j])
+
+            # If the third element is already in the hashset, a valid triplet is found
+            if third_element in hashset:
+                # Sort to maintain uniqueness
+                triplet = tuple(sorted([nums[i], nums[j], third_element]))
+                # Add the triplet to the set
+                unique_triplets.add(triplet)
+            
+            # Add the current number to the hashset for future lookups
+            hashset.add(nums[j])
+    
+    # Convert the set of tuples back to a list of lists and return
+    return [list(triplet) for triplet in unique_triplets]
+    
+
+
+"""
+    Optimal: Sorting + Two Pointer
+        Time Complexity:  O(n log n) + O(n^2)
+        Space Complexity: O(1) 
     
     Approach
-        1. **Sorting the array**  
+        1. ** Sorting the array **  
            - Sorting helps in avoiding duplicate triplets efficiently.
            - It also allows using the **Two-Pointer Technique**.
     
-        2. **Iterating through the array**  
+        2. ** Iterating through the array **  
            - If `nums[i] > 0`, break the loop (as positive numbers can't sum to zero).
            - If `nums[i]` is a duplicate (`nums[i] == nums[i-1]`), **skip** to avoid duplicate triplets.
     
-        3. **Two-Pointer Technique**  
+        3. ** Two-Pointer Technique **  
            - Use `l` (left pointer) and `r` (right pointer) to find a triplet.
            - Compute `three_sum = nums[i] + nums[l] + nums[r]`:
               - If `three_sum < 0`, **increase left** (`l += 1`).
@@ -35,69 +95,62 @@
               - If `three_sum == 0`, **store triplet and update pointers**.
               - Skip duplicates to avoid redundant triplets.
 """
-
-def threeSum(nums: list[int]) -> list[list[int]]:
-    # Sort the array
+def optimal(nums: list[int]) -> list[list[int]]:
+    # Sort the list
     nums.sort()
-    n = len(nums)
+
     result = []
-    # Iterate though the array
-    for i in range(n):
-        # If current number is greater than 0, break (no way to sum to zero)
-        if (nums[i] > 0):
+
+    # Iterate through the list
+    for i, num in enumerate(nums):
+         # Since the array is sorted, if num > 0, there can't be a sum of zero
+        if num > 0:
             break
         
-        # Skip duplicate elements to avoid duplicate triplets
-        if (i > 0 and nums[i] == nums[i - 1]):
+        # Skip duplicate elements to avoid repeated triplets
+        if i > 0 and num == nums[i - 1]:
             continue
-        
-        # Two-pointer approach
-        l, r = i + 1, n - 1
-        while (l < r):
-            three_sum: int = nums[i] + nums[l] + nums[r]
+
+       # Initialize two pointers for the two-sum approach
+        left, right = i + 1, len(nums) - 1
+
+        while left < right:
+            # Calculate Three sum
+            three_sum = num + nums[left] + nums[right]
+
             # Increase left pointer to get a larger sum
-            if (three_sum < 0):
-                l += 1
+            if three_sum < 0:
+                left += 1
             # Decrease right pointer to get a smaller sum
-            elif (three_sum > 0):
-                r -= 1
+            elif three_sum > 0:
+                right -=1
+            # Valid triplet found, add it to the result
             else:
-                # Found a valid triplet (append to `result`)
-                result.append([nums[i], nums[l], nums[r]])
-                l += 1
-                r -= 1
-                # Skip duplicate values for `l` (if current and next `l` element are same) 
-                while (nums[l] == nums[l - 1] and l < r):
-                    l += 1
+                result.append([num, nums[left], nums[right]])
+                left += 1
+                right -=1 
+                # Avoid duplicate triplets by skipping repeated elements
+                while nums[left] == nums[left - 1] and left < right:
+                    left += 1
 
     return result
-    
 
-print(threeSum([-1, 0, 1, 2, -1, -4]))
+
+
+# Main function
+def threeSum(nums: list[int]) -> list[list[int]]:
+    # print(brute_force(nums))
+    # print(better(nums))
+    print(optimal(nums))
+
+    
+threeSum([0,1,1])                  # []
+threeSum([0,0,0])                  # [0]
+threeSum([-1,0,1,0])               # [-1, 0, 1]
+threeSum([-1, 0, 1, 2, -1, -4])    # [[-1,-1,2],[-1,0,1]]
 
 
 
 """
     ** Notice that the solution set must not contain duplicate triplets. ❌ ** 
-    -----------
-    Example 1:
-        Input: nums = [-1,0,1,2,-1,-4]
-        Output: [[-1,-1,2],[-1,0,1]]
-        Explanation: 
-          - nums[0] + nums[1] + nums[2] = (-1) + 0 + 1 = 0.
-          - nums[1] + nums[2] + nums[4] = 0 + 1 + (-1) = 0.
-          - nums[0] + nums[3] + nums[4] = (-1) + 2 + (-1) = 0.
-        The distinct triplets are [-1,0,1] and [-1,-1,2].
-        Notice that the order of the output and the order of the triplets does not matter.
-    -----------
-    Example 2:
-        Input: nums = [0,1,1]
-        Output: []
-        Explanation: The only possible triplet does not sum up to 0.
-    -----------
-    Example 3:
-        Input: nums = [0,0,0]
-        Output: [[0,0,0]]
-        Explanation: The only possible triplet sums up to 0.
-    -----------
 """
