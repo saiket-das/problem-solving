@@ -4,45 +4,85 @@
 from collections import defaultdict
 
 """
-    Time Complexity:  O(n^2) + O(n^2)
-    Time Complexity:  O(n^2)
+    Better: Hashing
+        Time Complexity:  O(n^2) + O(n + n)
+        Space Complexity: O(n + n)
 """
-def findMissingAndRepeatedValues(grid: list[list[int]]) -> list[int]:
-    # Get the size of the grid (assuming it's an n x n matrix)
+def better(grid: list[list[int]]) -> list[int]:
+    # Get the size of the grid
     n = len(grid)
+    size = n * n
+
     # Dictionary to count occurrences of each number in the grid
-    counter = defaultdict(int)
+    freq_dict = defaultdict(int)
 
     # Count the occurrences of each number in the grid
     for i in range(n):
         for j in range(n):
-            counter[grid[i][j]] += 1
+            freq_dict[grid[i][j]] += 1
     
-    # Placeholder for the duplicate number (a) and the missing number (b)
-    ans = [None, None]
-    
-    # Sum of unique numbers in the grid
-    actual_sum = 0
-    for k, v in counter.items():
-        # Add the number to the sum
-        actual_sum += k
-        if v == 2:
-            # - The number appearing twice (a) (duplicate)
-            ans[0] = k
-    
-    # Compute the expected sum of numbers from 1 to n^2 (formula for sum of first m natural numbers)
-    m = n * n
-    expected_sum = m * (m + 1) // 2
 
-    # Find the missing number (b) by subtracting the actual sum from the expected sum
-    b = expected_sum - actual_sum
-    ans[1] = b
+    duplicate_number, missing_number = -1, -1
+
+    # Find duplicate and missing number
+    for num in range(1, size + 2):
+        if freq_dict[num] == 2:
+            duplicate_number = num    # Number appears twice
+        elif freq_dict[num] == 0: 
+            missing_number = num      # Number is missing
+        
+        # If both values are found, exit early
+        if duplicate_number != -1 and missing_number != -1:
+            break
+    
+    return [duplicate_number, missing_number]
+
+
+"""
+    Better: Math
+        Time Complexity:  O(n^2)
+        Space Complexity: O(1)
+"""
+def optimal(grid: list[list[int]]) -> list[int]:
+    # Get the size of the grid (assuming it's an n x n matrix)
+    n = len(grid)
+    
+    actual_sum, actual_square_sum = 0, 0
+    for i in range(n):
+        for j in range(n):
+            actual_sum += grid[i][j]
+            actual_square_sum += (grid[i][j] ** 2)
+    
+    tota_n = n * n
+    # Expected sum => Formula: (n * (n + 1) // 2)
+    expected_sum = (tota_n * (tota_n + 1)) // 2
+    i1 = actual_sum - expected_sum
+
+    # Expected sum ^2 => Formula: (n *(n + 1) (2n + 1)) / 6
+    expected_sqaure_sum = (tota_n * (tota_n + 1) * (2 * tota_n + 1)) // 6
+    i2 = actual_square_sum - expected_sqaure_sum
+    
+    # Find (x + y = i3)
+    i3 = i2 // i1
+
+    ans = [None, None]
+    ans[0] = (i1 + i3) // 2
+    ans[1] = -(i1 - i3) // 2
 
     return ans
 
 
-print(findMissingAndRepeatedValues([[1,3],[2,2]]))                # [2, 4]
-print(findMissingAndRepeatedValues([[9,1,7],[8,9,2],[3,4,6]]))    # [9, 5]
+"""
+    Time Complexity:  O(n^2) + O(n^2)
+    Time Complexity:  O(n^2)
+"""
+def findMissingAndRepeatedValues(grid: list[list[int]]) -> list[int]:
+    print(better(grid))
+    # print(optimal(grid))
+
+
+findMissingAndRepeatedValues([[1,3],[2,2]])                # [2, 4]
+findMissingAndRepeatedValues([[9,1,7],[8,9,2],[3,4,6]])    # [9, 5]
 
 """
     ----------

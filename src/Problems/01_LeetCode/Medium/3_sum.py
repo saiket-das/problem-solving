@@ -33,7 +33,6 @@ def brute_force(nums: list[int]) -> list[list[int]]:
     return [list(triplet) for triplet in unique_triplets]
 
 
-
 """
     Better: Nested Loop 
         Time Complexity:  O(n^2) * O(log s) => O(n^2)
@@ -71,7 +70,6 @@ def better(nums: list[int]) -> list[list[int]]:
     # Convert the set of tuples back to a list of lists and return
     return [list(triplet) for triplet in unique_triplets]
     
-
 
 """
     Optimal: Sorting + Two Pointer
@@ -134,7 +132,6 @@ def optimal(nums: list[int]) -> list[list[int]]:
                     left += 1
 
     return result
-
 
 
 # Main function

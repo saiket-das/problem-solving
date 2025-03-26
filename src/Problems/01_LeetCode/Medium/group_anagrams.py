@@ -31,14 +31,10 @@ def groupAnagrams(strs: list[str]) -> list[list[str]]:
     # Return values of anagrams as a list
     return list(anagram_groups.values())
 
-result = groupAnagrams(["eat","tea","tan","ate","nat","bat"])
-print(result)
 
-"""
-    ["eat","tea","tan","ate","nat","bat"]
-    [""]
-    ["a"]
-"""
+print(groupAnagrams([""]))
+print(groupAnagrams(["a"]))
+print(groupAnagrams(["eat","tea","tan","ate","nat","bat"]))
 
 """
     -----------

@@ -111,15 +111,18 @@ def optimal(nums: list[int]):
         else:
             i += 1
     
+    return nums
+    
+
+
 # Main Function
 def sortColors(nums: list[int]) -> None:
     # low, high = 0, len(nums) - 1
     # divide(nums, low, high)
     # better(nums)
-    optimal(nums)
-    print(nums)
+    print(optimal(nums))
 
-sortColors([1, 0, 2])
+sortColors([1, 0, 2] * 100000)
 sortColors([2, 0, 1])
 sortColors([2, 0, 2, 1, 1, 0, 1])
 sortColors([1, 1, 1, 0, 1, 1, 1])
