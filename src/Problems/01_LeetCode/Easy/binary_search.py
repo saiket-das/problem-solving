@@ -28,22 +28,34 @@ def search(nums: list[int], target: int) -> int:
     # Target not found
     return -1
 
-print(search([-1,0,3,5,9,12], 2))
+
+print(search([-1,0,3,5,9,12], 5))
+
+
+def recursion(arr, low, high, target) -> list[int]:
+    if (low > high):    # Base Case
+        return - 1
+    
+    mid = (low + high) // 2
+
+    if arr[mid] == target:
+        return mid
+    elif arr[mid] < target:
+        return recursion(arr, mid + 1, high, target)
+    else:
+        return recursion(arr, low, mid - 1, target)
+
+
+def binary_search_recursion(arr, target) -> list[int]:
+    n = len(arr)
+    low, high = 0, n - 1
+
+    idx = recursion(arr, low, high, target)
+    return idx
+
+
+print(binary_search_recursion([-1,0,3,5,9,12], 12))
 
 """
     Target TC: O(log n)
-"""
-
-"""
-    -----------
-    Example 1:
-        Input: nums = [-1,0,3,5,9,12], target = 9
-        Output: 4
-        Explanation: 9 exists in nums and its index is 4
-    -----------
-    Example 2:
-        Input: nums = [-1,0,3,5,9,12], target = 2
-        Output: -1
-        Explanation: 2 does not exist in nums so return -1
-    -----------
 """

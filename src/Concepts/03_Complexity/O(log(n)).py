@@ -13,7 +13,7 @@
             2. 2^3 = 8 (since log₂(8) = 3)
 """
 
-def binary_search (arr, target) -> list[int]:
+def binary_search(arr, target) -> list[int]:
     loop = 0    # To keep track of total loop
     # Two pointer
     left, right = 0, len(arr) - 1 
@@ -29,6 +29,9 @@ def binary_search (arr, target) -> list[int]:
             right = mid - 1
     
     return [-1, loop]
+
+
+
 
 sorrted_arr = [1, 3, 5, 7, 9, 11, 13, 15, 17]
 # Return the index of Target value
