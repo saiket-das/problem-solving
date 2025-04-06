@@ -1,5 +1,6 @@
 # https://codeforces.com/gym/518277/problem/A
 
+# ** Wrong Solution ** 
 def solve_kfc_countdown(k, c, secret_numbers):
     # Create initial array of chickens (1-indexed for easier position tracking)
     chickens = list(range(1, c + 1))
